@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.system.data.model.Order
 import com.system.databinding.ActivityMainBinding
 import com.system.ui.RealmViewModel
@@ -18,6 +21,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        val bottomNavBar = findViewById<BottomNavigationView>(R.id.bottomNavBar)
+        setupWithNavController(bottomNavBar,navController)
+
 //
 //        val email = "purabmodi1991@gmail.com"
 //        val password = "Purab123"
@@ -34,19 +44,21 @@ class MainActivity : AppCompatActivity() {
 ////            val user = app.login(Credentials.emailPassword(email, password))
 ////        }
 
-        viewModel.data.observe(this){
-            it.forEach {order->
-                Log.d("ORDERNAMES", "onCreate: ${order.name}")
-            }
-        }
+//        viewModel.data.observe(this){
+//            it.forEach {order->
+//                Log.d("ORDERNAMES", "onCreate: ${order.name}")
+//            }
+//        }
+//
+//        binding.submitBtn.setOnClickListener{
+//            if(binding.orderName.text.isNotBlank()){
+//                viewModel.insertOrder(order = Order().apply {
+//                    name = binding.orderName.text.toString()
+//                })
+//            }
+//        }
 
-        binding.submitBtn.setOnClickListener{
-            if(binding.orderName.text.isNotBlank()){
-                viewModel.insertOrder(order = Order().apply {
-                    name = binding.orderName.text.toString()
-                })
-            }
-        }
+
 
 
     }

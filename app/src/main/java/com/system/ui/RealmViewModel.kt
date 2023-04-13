@@ -11,15 +11,12 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class RealmViewModel @Inject constructor(
-    private val repository: MongoRepository
-) : ViewModel() {
+class RealmViewModel : ViewModel() {
     var data = MutableLiveData<List<Order>>()
 
     init {
         viewModelScope.launch {
-            repository.getData().collect() {
+            MongoRepository.getData().collect() {
                 data.value = it
             }
         }
@@ -27,7 +24,7 @@ class RealmViewModel @Inject constructor(
 
     fun insertOrder(order: Order) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.insertOrder(order)
+            MongoRepository.insertOrder(order)
         }
     }
 }
